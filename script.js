@@ -4,7 +4,7 @@
 // Но для этого демо мы их возьмем прямо из .env (что небезопасно для продакшена!)
 
 // Замените на ваши реальные значения, если не используете .env или другой метод передачи
-const SUPABASE_URL = 'https://amdbit2774.github.io/admin-panel/';
+const SUPABASE_URL = 'https://dovuoonqbfycjqxqkrin.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvdnVvb25xYmZ5Y2pxeHFrcmluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUzMjUzNDEsImV4cCI6MjA2MDkwMTM0MX0.ZZGRkGBRr2TpGKQg4VHEfSwpcRbeEbtXyv6f0SAHiTU';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tableBody = document.getElementById('chat-logs-body');
     const table = document.getElementById('chat-logs-table');
 
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL === 'https://amdbit2774.github.io/admin-panel/') {
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
         loadingDiv.textContent = 'Ошибка: URL или ключ Supabase не настроены в script.js!';
         console.error('Supabase URL или Anon Key не установлены.');
         return;
