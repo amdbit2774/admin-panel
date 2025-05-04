@@ -11,24 +11,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <h1>Логи чата из Supabase</h1>
-    <div id="loading">Загрузка данных...</div>
-    <table id="chat-logs-table">
-        <thead>
-            <tr>
-                <!-- Добавьте сюда заголовки столбцов вашей таблицы chat_logs -->
-                <th>ID</th>
-                <th>Role</th>
-                <th>Content</th>
-                <th>Metadata</th>
-                <th>Created At</th>
-                <!-- Добавьте или удалите столбцы по необходимости -->
-            </tr>
-        </thead>
-        <tbody id="chat-logs-body">
-            <!-- Данные будут загружены сюда -->
-        </tbody>
-    </table>
+    <div class="app-container">
+        <aside id="session-list-container">
+            <h2>Сессии</h2>
+            <ul id="session-list">
+                <!-- Сюда будут загружены сессии -->
+                <li class="loading-sessions">Загрузка сессий...</li>
+            </ul>
+        </aside>
+        <main id="chat-area-container">
+            <div id="chat-header">Диалог</div>
+            <div id="chat-area">
+                <!-- Сюда будут загружены сообщения -->
+                <div class="no-session-selected">Выберите сессию для просмотра сообщений.</div>
+            </div>
+        </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
