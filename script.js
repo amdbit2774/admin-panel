@@ -172,39 +172,66 @@ async function loadChatData(_supabase, sessionList, chatArea, chatHeader, loadin
 
 // --- Функция отображения сообщений для выбранной сессии ---
 function displayMessagesForSession(sessionId, chatAreaElement, chatHeaderElement, sessionDisplayName) {
-     if (!chatAreaElement || !chatHeaderElement) return; // Доп. проверка
+     if (!chatAreaElement || !chatHeaderElement) return;
 
     currentSessionId = sessionId;
-    chatHeaderElement.textContent = sessionDisplayName; // Используем переданное имя
-    chatAreaElement.innerHTML = ''; 
+    chatHeaderElement.textContent = sessionDisplayName;
+    chatAreaElement.innerHTML = '';
 
     const messagesForSession = allMessages.filter(msg => {
         const msgSessionId = msg.user_id || msg.metadata?.user_id || msg.metadata?.session_id || 'unknown_session';
          return msgSessionId === sessionId;
     });
 
-    // Сортировка уже была
+    // Сообщения уже отсортированы по возрастанию времени (старые вверху массива)
+    // Так как у нас flex-direction: column-reverse, мы можем добавлять их в обычном порядке
     if (messagesForSession.length > 0) {
         messagesForSession.forEach(msg => {
+            const messageContainer = document.createElement('div');
+            messageContainer.classList.add('message-container');
+            const messageRole = msg.role === 'user' ? 'user' : 'assistant';
+            messageContainer.classList.add(messageRole);
+
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message');
-            messageDiv.classList.add(msg.role === 'user' ? 'user' : 'assistant');
+            // Класс роли теперь на контейнере, но можно оставить и здесь для стилей
+            // messageDiv.classList.add(messageRole);
+
+            // Обертка для контента и времени
+            const contentWrapper = document.createElement('div');
 
             const contentSpan = document.createElement('span');
-            contentSpan.innerHTML = msg.content ? msg.content.replace(/\n/g, '<br>') : ''; // Заменяем \n на <br> для переносов
-            messageDiv.appendChild(contentSpan);
+            contentSpan.classList.add('message-content');
+            contentSpan.innerHTML = msg.content ? msg.content.replace(/\n/g, '<br>') : '';
+            contentWrapper.appendChild(contentSpan);
 
+            // Добавляем время и галочки (если нужно)
             if (msg.created_at) {
+                const timeWrapper = document.createElement('span');
+                timeWrapper.classList.add('message-timestamp-wrapper');
+
                 const timeStamp = document.createElement('span');
                 timeStamp.classList.add('timestamp');
                 timeStamp.textContent = new Date(msg.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-                messageDiv.appendChild(timeStamp);
+                timeWrapper.appendChild(timeStamp);
+
+                // Добавляем галочки для assistant
+                if (messageRole === 'assistant') {
+                    const checkmark = document.createElement('span');
+                    checkmark.classList.add('checkmark');
+                    checkmark.innerHTML = '&#x2714;&#x2714;'; // Двойная галочка
+                    timeWrapper.appendChild(checkmark);
+                }
+                contentWrapper.appendChild(timeWrapper);
             }
 
-            chatAreaElement.appendChild(messageDiv);
+            messageDiv.appendChild(contentWrapper);
+            messageContainer.appendChild(messageDiv);
+            chatAreaElement.appendChild(messageContainer); // Добавляем контейнер в чат
         });
 
-        chatAreaElement.scrollTop = chatAreaElement.scrollHeight;
+        // Прокрутка теперь не нужна, так как новые сообщения добавляются в конец (визуально низ)
+        // chatAreaElement.scrollTop = chatAreaElement.scrollHeight;
     } else {
         chatAreaElement.innerHTML = '<div class="no-session-selected">В этой сессии нет сообщений.</div>';
     }
