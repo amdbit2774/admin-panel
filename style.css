@@ -23,22 +23,81 @@ th {
 }
 
 /* Базовые стили и переменные Telegram */
+:root {
+    /* Попробуем определить фоновый цвет, похожий на Telegram */
+    --app-bg-color: var(--tg-theme-secondary-bg-color, #f1f4f7);
+    --chat-bg-image: url('https://web.telegram.org/a/chat-bg-pattern-light.ad36a5961386a036884c.png'); /* Пример фона */
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    /* Используем переменные цвета Telegram */
-    background-color: var(--tg-theme-bg-color, #ffffff);
+    background-color: var(--app-bg-color);
     color: var(--tg-theme-text-color, #000000);
     display: flex;
     height: 100vh; /* Занимаем всю высоту экрана */
-    overflow: hidden; /* Убираем прокрутку у body */
+    overflow: hidden;
 }
 
-.app-container {
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+/* Верхнее меню */
+#top-menu {
+    display: flex;
+    background-color: var(--tg-theme-bg-color, #ffffff);
+    border-bottom: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+#top-menu button {
+    flex-grow: 1;
+    padding: 12px 10px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent; /* Индикатор активной вкладки */
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--tg-theme-hint-color, #888888);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    outline: none;
+}
+
+#top-menu button:hover {
+    color: var(--tg-theme-link-color, #2e8eda);
+}
+
+#top-menu button.active {
+    color: var(--tg-theme-button-color, #40a7e3);
+    border-bottom-color: var(--tg-theme-button-color, #40a7e3);
+}
+
+/* Контейнеры страниц */
+.page {
+    flex-grow: 1;
+    display: none; /* Скрыты по умолчанию */
+    overflow: hidden;
+    height: calc(100vh - 46px); /* Высота минус высота меню */
+}
+
+.page.active {
+    display: flex; /* Показываем активную страницу */
+    flex-direction: column; /* Для страниц Статистика и Рассылка */
+}
+
+/* Стили для страницы чатов (внутри .page#page-chats) */
+#page-chats .app-container {
     display: flex;
     width: 100%;
     height: 100%;
+    background-color: var(--tg-theme-bg-color, #fff);
 }
 
 /* Левая панель (список сессий) */
@@ -49,6 +108,7 @@ body {
     flex-direction: column;
     height: 100%;
     flex-shrink: 0;
+    background-color: var(--tg-theme-secondary-bg-color, #f7f7f7); /* Фон панели сессий */
 }
 
 #session-list-container h2 {
@@ -57,14 +117,15 @@ body {
     font-size: 16px;
     font-weight: 600;
     border-bottom: 1px solid var(--tg-theme-hint-color, #e0e0e0);
-    background-color: var(--tg-theme-secondary-bg-color, #f7f7f7);
+    background-color: var(--tg-theme-bg-color, #ffffff); /* Фон заголовка */
+    color: var(--tg-theme-text-color, #000000);
 }
 
 #session-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    overflow-y: auto; /* Добавляем прокрутку, если сессий много */
+    overflow-y: auto;
     flex-grow: 1;
 }
 
@@ -76,6 +137,12 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--tg-theme-text-color, #000000);
+    transition: background-color 0.1s ease;
+}
+
+#session-list li:last-child {
+    border-bottom: none;
 }
 
 #session-list li:hover {
@@ -101,21 +168,27 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: var(--tg-theme-bg-color, #fff); /* Фон области чата */
+    /* Попытка добавить фоновый рисунок */
+    /* background-image: var(--chat-bg-image);\ */
+    /* background-size: contain; */ /* или cover, или repeat */
 }
 
 #chat-header {
-    padding: 15px;
+    padding: 10px 15px; /* Уменьшил паддинг */
     font-size: 16px;
     font-weight: 600;
     border-bottom: 1px solid var(--tg-theme-hint-color, #e0e0e0);
     background-color: var(--tg-theme-secondary-bg-color, #f7f7f7);
+    color: var(--tg-theme-text-color, #000000);
     flex-shrink: 0;
+    text-align: center;
 }
 
 #chat-area {
     flex-grow: 1;
-    overflow-y: auto; /* Прокрутка сообщений */
-    padding: 15px;
+    overflow-y: auto;
+    padding: 15px 10px;
     display: flex;
     flex-direction: column;
 }
@@ -135,34 +208,58 @@ body {
     word-wrap: break-word;
     font-size: 14px;
     line-height: 1.4;
-    position: relative; /* Для возможного добавления времени */
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
 }
 
 .message.user {
-    background-color: var(--tg-theme-hint-color, #e9e9eb); /* Серый для пользователя */
+    background-color: var(--tg-theme-bg-color, #ffffff); /* Белый для пользователя */
     color: var(--tg-theme-text-color, #000000);
-    align-self: flex-start; /* Выравнивание влево */
+    align-self: flex-start;
     border-bottom-left-radius: 4px;
+    /* Добавим маленькую тень для разделения */
+    border: 1px solid var(--tg-theme-hint-color, #e8e8e8);
 }
 
 .message.assistant {
-    background-color: var(--tg-theme-button-color, #40a7e3); /* Синий для ассистента */
-    color: var(--tg-theme-button-text-color, #ffffff);
-    align-self: flex-end; /* Выравнивание вправо */
+    /* Попробуем цвет исходящих сообщений Telegram */
+    background-color: var(--tg-outgoing-message-bg-color, #e1ffc7); /* Светло-зеленый */
+    color: var(--tg-theme-text-color, #000000);
+    align-self: flex-end;
     border-bottom-right-radius: 4px;
 }
 
 .message .timestamp {
     font-size: 11px;
-    color: var(--tg-theme-hint-color, #999999);
+    /* Цвет времени обычно светлее основного текста */
+    color: var(--tg-theme-hint-color, #8a8a8a);
     margin-top: 4px;
-    display: block;
-    text-align: right; /* Время справа внутри пузырька */
+    margin-left: 8px; /* Отступ слева от текста */
+    display: block; /* Может потребоваться inline-block или float: right */
+    text-align: right;
+    float: right; /* Попробуем прижать вправо */
+    clear: both; /* Чтобы время не влияло на следующий блок */
+    user-select: none;
 }
 
-/* Стиль для времени у ассистента (если нужно другой цвет) */
 .message.assistant .timestamp {
-     color: rgba(255, 255, 255, 0.7);
+     /* Может понадобиться другой цвет для зеленого фона */
+     color: var(--tg-theme-passcode-button-text-color, #69ab4f);
+}
+
+/* Стили для страниц Статистика и Рассылка */
+#page-stats h1,
+#page-broadcast h1,
+#page-stats p,
+#page-broadcast p {
+    text-align: center;
+    margin-top: 30px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+#page-stats p,
+#page-broadcast p {
+    color: var(--tg-theme-hint-color, #888888);
 }
 
 h1 {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Логи чата</title>
+    <title>Админ Панель</title>
     <link rel="stylesheet" href="style.css">
     <!-- Подключаем скрипт Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -11,21 +11,43 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <div class="app-container">
-        <aside id="session-list-container">
-            <h2>Сессии</h2>
-            <ul id="session-list">
-                <!-- Сюда будут загружены сессии -->
-                <li class="loading-sessions">Загрузка сессий...</li>
-            </ul>
-        </aside>
-        <main id="chat-area-container">
-            <div id="chat-header">Диалог</div>
-            <div id="chat-area">
-                <!-- Сюда будут загружены сообщения -->
-                <div class="no-session-selected">Выберите сессию для просмотра сообщений.</div>
+    <div class="app-layout">
+        <nav id="top-menu">
+            <button data-page="chats" class="active">Чаты</button>
+            <button data-page="stats">Статистика</button>
+            <button data-page="broadcast">Рассылка</button>
+        </nav>
+
+        <div id="page-chats" class="page active">
+            <div class="app-container">
+                <aside id="session-list-container">
+                    <h2>Сессии</h2>
+                    <ul id="session-list">
+                        <!-- Сюда будут загружены сессии -->
+                        <li class="loading-sessions">Загрузка сессий...</li>
+                    </ul>
+                </aside>
+                <main id="chat-area-container">
+                    <div id="chat-header">Диалог</div>
+                    <div id="chat-area">
+                        <!-- Сюда будут загружены сообщения -->
+                        <div class="no-session-selected">Выберите сессию для просмотра сообщений.</div>
+                    </div>
+                </main>
             </div>
-        </main>
+        </div>
+
+        <div id="page-stats" class="page">
+            <!-- Контент для страницы Статистика -->
+            <h1>Статистика</h1>
+            <p>Этот раздел находится в разработке.</p>
+        </div>
+
+        <div id="page-broadcast" class="page">
+            <!-- Контент для страницы Рассылка -->
+            <h1>Рассылка</h1>
+            <p>Этот раздел находится в разработке.</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
