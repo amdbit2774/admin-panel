@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логи чата</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем скрипт Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Подключаем библиотеку Supabase (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Логи чата из Supabase</h1>
+    <div id="loading">Загрузка данных...</div>
+    <table id="chat-logs-table">
+        <thead>
+            <tr>
+                <!-- Добавьте сюда заголовки столбцов вашей таблицы chat_logs -->
+                <th>ID</th>
+                <th>Role</th>
+                <th>Content</th>
+                <th>Metadata</th>
+                <th>Created At</th>
+                <!-- Добавьте или удалите столбцы по необходимости -->
+            </tr>
+        </thead>
+        <tbody id="chat-logs-body">
+            <!-- Данные будут загружены сюда -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html> 

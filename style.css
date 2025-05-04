@@ -1,0 +1,36 @@
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    display: none; /* Скрыта по умолчанию, пока данные не загружены */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Стили для сообщения о загрузке */
+#loading {
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* Базовые стили */
+body {
+    font-family: sans-serif;
+    padding: 15px;
+    /* Используем переменные цвета Telegram */
+    background-color: var(--tg-theme-bg-color, white);
+    color: var(--tg-theme-text-color, black);
+}
+
+h1 {
+   color: var(--tg-theme-text-color, black);
+} 
